@@ -176,6 +176,16 @@ class InfoHandler(ModuleBase):
     map_has_fast_forward = False  # Will be override in fast_forward.py
 
     def story_skip(self):
+        if self.appear_then_click(OS_CONFIRM, offset=True, interval=2):
+            self.story_popup_timout.reset()
+            self.interval_reset(STORY_SKIP)
+            self.interval_reset(STORY_LETTERS_ONLY)
+            return True
+        if self.appear_then_click(OS_PICKUP, offset=True, interval=2):
+            self.story_popup_timout.reset()
+            self.interval_reset(STORY_SKIP)
+            self.interval_reset(STORY_LETTERS_ONLY)
+            return True
         if self.story_popup_timout.started() and not self.story_popup_timout.reached():
             if self.handle_popup_confirm('STORY_SKIP'):
                 self.story_popup_timout = Timer(10)
